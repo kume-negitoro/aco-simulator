@@ -3181,6 +3181,19 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+phina-patch-es-classes-support@negiwine/phina-patch-es-classes-support:
+  version "0.0.1"
+  resolved "https://codeload.github.com/negiwine/phina-patch-es-classes-support/tar.gz/cd23f6eec7718a5a5fbedbc23650c3c612dad201"
+
+phina.js.d.ts@negiwine/phina.js.d.ts:
+  version "0.0.1"
+  resolved "https://codeload.github.com/negiwine/phina.js.d.ts/tar.gz/a3082a89bd6cb719be0662bf8f9efc0222d0ef56"
+
+phina.js@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/phina.js/-/phina.js-0.2.3.tgz#600317c00db688a645f4a7a39b83727bde08ffe2"
+  integrity sha512-XcgYa2b13RmiHQnG+xrTpiT/kg5ibr3ppd1S17BOWuJD7cr28JUTCrKxacOhyFhxYBtzHfHJjpdT0XTDVk2Tfw==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
