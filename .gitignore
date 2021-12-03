@@ -1,3 +1,6 @@
+# Out directory
+www/
+
 # Logs
 logs
 *.log
