@@ -38,8 +38,8 @@ export class MainScene extends DisplayScene {
         console.table(edges)
 
         const simulator = new ACOSimulator({
-            alpha: 2,
-            beta: 1,
+            alpha: 1.5,
+            beta: 2.0,
             rho: 0.5,
             nodes,
             edges,

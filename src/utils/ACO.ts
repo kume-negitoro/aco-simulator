@@ -55,7 +55,7 @@ export class Ant {
 
         // console.log(sigma)
 
-        console.log(this.tabuList.length, this.nodes.length)
+        // console.log(this.tabuList.length, this.nodes.length)
 
         // 全ノードがタブーリストに入っていた場合
         if (this.tabuList.length === this.nodes.length) {
@@ -113,7 +113,7 @@ export class Ant {
         this.tabuList.push(slut[lut[i]])
         this.position = slut[lut[i]]
         this.distance += Node.distance(nodes[j], nodes[slut[lut[i]]])
-        console.log(this.tabuList)
+        // console.log(this.tabuList)
 
         // const accps: number[] = [0]
         // const nps = []
@@ -301,7 +301,7 @@ export class ACOSimulator {
             newEdges[ii][ij] += (1 - rho) * edges[ij][ii] + delta[ij][ii]
         }
 
-        console.log(newEdges)
+        // console.log(newEdges)
         // throw 0
 
         // this.edges = newEdges
