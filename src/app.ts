@@ -1,6 +1,8 @@
 import 'phina-patch-es-classes-support'
+const arrayFrom = Array.from
 import phina from 'phina.js'
 phina.globalize()
+Array.from = arrayFrom
 
 import { width, height } from 'meta/config'
 import 'scenes/MainScene.ts'
