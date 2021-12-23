@@ -10,6 +10,7 @@ const nodeListType = 2
 const nodeListCsvPath = `./data/node-list-type${nodeListType}.csv`
 const destPath = './out'
 
+const simulatorNum = 20
 const maxStep = 20
 const alpha = 1.5
 const beta = 2
@@ -88,14 +89,18 @@ const main = async (): Promise<void> => {
         )
     )
 
-    const simulator = new ACOSimulator({
-        alpha,
-        beta,
-        rho,
-        tau0,
-        nodes,
-        edges,
-    })
+    const simulators = Array.from<unknown, ACOSimulator>(
+        Array(simulatorNum),
+        () =>
+            new ACOSimulator({
+                alpha,
+                beta,
+                rho,
+                tau0,
+                nodes,
+                edges,
+            })
+    )
 
     const fix = (x: number): number => linearMap(x, 0, nodeRange, 0, canvasSize)
 
@@ -108,10 +113,11 @@ const main = async (): Promise<void> => {
         ''
     )
     for (let step = 1; step <= maxStep; step++) {
-        const {
-            value: { dist, path: apath },
-        } = simulator.next()
-        const edges = simulator.getEdges()
+        const results = simulators.map((sim) => sim.next())
+
+        const edges = simulators[0].getEdges()
+        const dist = results[0].value.dist
+        const apath = results[0].value.path
 
         console.log(`step=${step}, dist=${dist}`)
 
@@ -130,7 +136,7 @@ const main = async (): Promise<void> => {
                 destPath,
                 `type=${nodeListType},alpha=${alpha},beta=${beta},rho=${rho},tau0=${tau0}.csv`
             ),
-            `${dist}\n`
+            `${results.map((r) => r.value.dist).join(',')}\n`
         )
     }
 
