@@ -11,7 +11,7 @@ export const linearMap = (
     end2: number
 ): number => start2 + (end2 - start2) * ((value - start1) / (end1 - start1))
 
-export const bsearch = (arr: number[], value: number): number => {
+export const _bsearch = (arr: number[], value: number): number => {
     let imin = 0
     let imax = arr.length
     let index = ((imin + imax) / 2) | 0
@@ -24,6 +24,19 @@ export const bsearch = (arr: number[], value: number): number => {
         index = ((imin + imax) / 2) | 0
     }
     return index
+}
+
+export const bsearch = (arr: number[], value: number): number => {
+    let left = -1
+    let right = arr.length
+
+    while (right - left > 1) {
+        const mid = (left + (right - left) / 2) | 0
+        if (arr[mid] > value) right = mid
+        else left = mid
+    }
+
+    return right
 }
 
 export const sortWithIndicies = (arr: number[]): [number[], number[]] => {

@@ -58,6 +58,8 @@ export class Ant {
         // console.log(this.tabuList.length, this.nodes.length)
 
         // 全ノードがタブーリストに入っていた場合
+        // 二分探索を修正したら動かなくなったので再考の必要あり
+        // （sigma === 0だと要素を見落とす）（this.tabuList.length === this.nodes.lengthだとNaNが混じる）
         if (this.tabuList.length === this.nodes.length) {
             // すでに初期位置に戻っていた場合
             if (this.position === this.tabuList[0]) {
@@ -109,7 +111,8 @@ export class Ant {
                 accps.push((accps[accps.length - 1] || 0) + descps[i])
             }
         }
-        const i = bsearch(accps, rand)
+        const i = Math.min(bsearch(accps, rand), accps.length - 1)
+        // console.log(i, lut, lut[i], accps)
         this.tabuList.push(slut[lut[i]])
         this.position = slut[lut[i]]
         this.distance += Node.distance(nodes[j], nodes[slut[lut[i]]])
