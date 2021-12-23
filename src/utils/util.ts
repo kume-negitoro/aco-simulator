@@ -1,7 +1,8 @@
-import phina from 'phina.js'
+export const randint = (min: number, max: number): number =>
+    Math.floor(Math.random() * (max - min + 1)) + min
 
-export const define = (path: string) => (_class: any) =>
-    phina.register(path, (...args: unknown[]) => new _class(...args)) && _class
+export const randfloat = (min: number, max: number): number =>
+    Math.random() * (max - min) + min
 
 // 線形補間
 export const linearMap = (

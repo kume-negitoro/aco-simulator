@@ -1,4 +1,5 @@
-import { define, linearMap } from 'utils/util'
+import { define } from 'meta/context'
+import { linearMap } from 'utils/util'
 import { width, height } from 'meta/config'
 import { ACOSimulator, Node } from 'utils/ACO'
 
@@ -34,7 +35,7 @@ export class MainScene extends DisplayScene {
             )
         )
 
-        console.log(nodes.length)
+        console.log(nodes.map((n) => `${n.x}, ${n.y}`).join('\n'))
         console.table(edges)
 
         const simulator = new ACOSimulator({

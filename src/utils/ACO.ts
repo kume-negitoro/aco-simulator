@@ -1,4 +1,4 @@
-import { bsearch, sortWithIndicies } from './util'
+import { randint, randfloat, bsearch, sortWithIndicies } from './util'
 
 export class Node {
     constructor(public x: number, public y: number, public key: number) {}
@@ -92,7 +92,7 @@ export class Ant {
         }
 
         // 選択確率と乱数に基づいて次のノードを決定
-        const rand = Math.randfloat(0, 1)
+        const rand = randfloat(0, 1)
         const i = Math.min(bsearch(accps, rand), accps.length - 1)
         this.tabuList.push(slut[lut[i]])
         this.position = slut[lut[i]]
@@ -154,14 +154,14 @@ export class ACOSimulator {
                     edges,
                     alpha,
                     beta,
-                    startPosition: Math.randint(0, nNodes - 1),
+                    startPosition: randint(0, nNodes - 1),
                 })
         )
     }
 
     resetAnts(newEdge: number[][]): void {
         for (const ant of this.ants) {
-            ant.reset(Math.randint(0, this.nNodes - 1), newEdge)
+            ant.reset(randint(0, this.nNodes - 1), newEdge)
         }
     }
 
