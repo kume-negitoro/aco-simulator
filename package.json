@@ -37,6 +37,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "canvas": "^2.8.0",
     "phina-patch-es-classes-support": "negiwine/phina-patch-es-classes-support",
     "phina.js": "^0.2.3"
   }
