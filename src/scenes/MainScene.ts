@@ -62,7 +62,7 @@ export class MainScene extends DisplayScene {
             if (this.step > this.maxStep) return
 
             console.log(`step ${this.step}`)
-            // return
+
             const {
                 value: { dist, path },
             } = this.simulator.next()

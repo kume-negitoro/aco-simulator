@@ -44,8 +44,6 @@ export class Ant {
     next(): { value: { dist: number; path: number[] }; done: boolean } {
         const { nodes, edges, position: j, alpha, beta } = this
 
-        // console.log('ant next')
-
         // \sigma_{l \notin L_{T}} \tau^{\alpha}_{lj} \eta^{\beta}_{lj}
         const sigma = this.nodes.reduce((acc, node, l) => {
             if (this.tabuList.some((t) => t === l)) return acc
@@ -53,13 +51,7 @@ export class Ant {
             return acc + Math.pow(edges[l][j], alpha) * Math.pow(eta, beta)
         }, 0)
 
-        // console.log(sigma)
-
-        // console.log(this.tabuList.length, this.nodes.length)
-
         // 全ノードがタブーリストに入っていた場合
-        // 二分探索を修正したら動かなくなったので再考の必要あり
-        // （sigma === 0だと要素を見落とす）（this.tabuList.length === this.nodes.lengthだとNaNが混じる）
         if (this.tabuList.length === this.nodes.length) {
             // すでに初期位置に戻っていた場合
             if (this.position === this.tabuList[0]) {
@@ -85,92 +77,26 @@ export class Ant {
             return (Math.pow(edges[i][j], alpha) * Math.pow(eta, beta)) / sigma
         })
 
-        // console.log(ps)
-        // throw 0
-
-        // 選択確率と乱数に基づいて次のノードを決定
-        const rand = Math.randfloat(0, 1)
-        // for (let i = 0; i < ps.length; i++) {
-        //     if (rand <= ps[i]) {
-        //         this.tabuList.push(i)
-        //         this.position = i
-        //         this.distance += Node.distance(nodes[j], nodes[i])
-        //         // console.log(Node.distance(nodes[j], nodes[i]))
-        //         break
-        //     }
-        // }
-
+        // インデックスを保持して選択確率をソート
         const [descps, slut] = sortWithIndicies(ps)
         const accps: number[] = []
         const nps = []
         const lut = []
         for (let i = 0; i < descps.length; i++) {
+            // タブーリストに含まれていないものを抽出
             if (!this.tabuList.includes(slut[i])) {
                 lut.push(i)
                 nps.push(descps[i])
                 accps.push((accps[accps.length - 1] || 0) + descps[i])
             }
         }
+
+        // 選択確率と乱数に基づいて次のノードを決定
+        const rand = Math.randfloat(0, 1)
         const i = Math.min(bsearch(accps, rand), accps.length - 1)
-        // console.log(i, lut, lut[i], accps)
         this.tabuList.push(slut[lut[i]])
         this.position = slut[lut[i]]
         this.distance += Node.distance(nodes[j], nodes[slut[lut[i]]])
-        // console.log(this.tabuList)
-
-        // const accps: number[] = [0]
-        // const nps = []
-        // const lut = []
-        // for (let i = 0; i < ps.length; i++) {
-        //     if (!this.tabuList.includes(i)) {
-        //         lut.push(i)
-        //         nps.push(ps[i])
-        //         accps.push(accps[accps.length - 1] + ps[i])
-        //     }
-        // }
-        // accps.shift()
-        // const i = bsearch(accps, rand)
-        // this.tabuList.push(lut[i])
-        // this.position = lut[i]
-        // this.distance += Node.distance(nodes[j], nodes[lut[i]])
-
-        // const accps = [ps[0]]
-        // for (let i = 1; i < ps.length; i++) {
-        //     accps.push(accps[i - 1] + ps[i])
-        // }
-        // console.log(accps)
-        // const i = bsearch(accps, rand)
-        // console.log(i, accps[i], rand)
-        // this.tabuList.push(i)
-        // this.position = i
-        // this.distance += Node.distance(nodes[j], nodes[i])
-        // // throw 0
-
-        // const accps = ps.reduce<number[]>((arr, p, i) => {
-        //     arr.push((arr[i - 1] || 0) + p)
-        //     return arr
-        // }, [])
-        // for (let i = 0; i < accps.length; i++) {
-        //     if (this.tabuList.some((t) => t === i)) continue
-        //     if (rand <= accps[i]) {
-        //         const idx = i === 0 ? i : i - 1
-        //         this.tabuList.push(idx)
-        //         this.position = idx
-        //         this.distance += Node.distance(nodes[j], nodes[idx])
-        //         break
-        //     }
-        // }
-
-        // let accp = 0
-        // for (let i = 0; i < ps.length; i++) {
-        //     if (i === j) continue
-        //     accp += ps[i]
-        //     if (rand <= accp) {
-        //         this.tabuList.push(i)
-        //         this.position = i
-        //         this.distance += Node.distance(nodes[j], nodes[i])
-        //     }
-        // }
 
         return {
             value: { dist: this.distance, path: this.tabuList },
@@ -220,10 +146,6 @@ export class ACOSimulator {
 
         const nNodes = (this.nNodes = nodes.length)
 
-        // this.edges = Array.from(Array(nNodes), () =>
-        //     Array.from(Array(nNodes), () => tau0)
-        // )
-
         this.ants = Array.from(
             Array(nAnts),
             () =>
@@ -260,14 +182,6 @@ export class ACOSimulator {
             return result.value
         })
 
-        // const delta = results.reduce((acc, r) => acc + 1 / r.dist, 0)
-        // const newEdges = Array.from<any, number[]>(Array(nNodes), (_, i) =>
-        //     Array.from<any, number>(Array(nNodes), (_, j) => {
-        //         // console.log(i, j)
-        //         if (edges[i][j] === -1 || i === j) return -1
-        //         return (1 - rho) * edges[i][j] + delta
-        //     })
-        // )
         const newEdges = Array.from<unknown, number[]>(Array(nNodes), () =>
             Array.from(Array(nNodes), () => 0)
         )
@@ -288,9 +202,6 @@ export class ACOSimulator {
             delta[ii][ij] += 1 / dist
         }
 
-        // console.table(delta)
-        // throw 0
-
         for (const { path } of results) {
             for (let i = 0; i < path.length - 1; i++) {
                 const ii = path[i]
@@ -304,10 +215,6 @@ export class ACOSimulator {
             newEdges[ii][ij] += (1 - rho) * edges[ij][ii] + delta[ij][ii]
         }
 
-        // console.log(newEdges)
-        // throw 0
-
-        // this.edges = newEdges
         this.resetAnts(newEdges)
 
         return {
